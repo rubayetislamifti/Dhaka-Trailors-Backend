@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -60,6 +61,18 @@ class AuthController extends Controller
                 'user' => JWTAuth::user(),
                 'token' => $token,
             ],'Login Successfully',Response::HTTP_OK);
+        }catch (\Exception $exception){
+            return $this->errorResponse($exception->getMessage(),'Something went wrong',500);
+        }
+    }
+
+    public function logout(){
+        try {
+            Auth::logout();
+
+            JWTAuth::invalidate();
+
+            return $this->successResponse('','Logged out Successfully',Response::HTTP_OK);
         }catch (\Exception $exception){
             return $this->errorResponse($exception->getMessage(),'Something went wrong',500);
         }
