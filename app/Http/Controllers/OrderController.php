@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\ClothDetails;
 use App\Models\ClothFeature;
+use App\Models\LowerMeasurement;
 use App\Models\Order;
+use App\Models\UpperMeasurement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -48,6 +50,26 @@ class OrderController extends Controller
                 'coughlin_sleeves'=>'nullable',
                 'black_color'=>'nullable',
                 'tira'=>'nullable',
+                'length'=>'nullable',
+                'body'=>'nullable',
+                'belly'=>'nullable',
+                'tira2'=>'nullable',
+                'sleeves'=>'nullable',
+                'hem'=>'nullable',
+                'neck'=>'nullable',
+                'chest_open'=>'nullable',
+                'chest_loose'=>'nullable',
+                'belly_loose'=>'nullable',
+                'lower_enclouser'=>'nullable',
+                'length2'=>'nullable',
+                'body2'=>'nullable',
+                'west'=>'nullable',
+                'hi'=>'nullable',
+                'run'=>'nullable',
+                'back_pocket'=>'nullable',
+                'front_mobile_pocket'=>'nullable',
+                'right_pocket_chain'=>'nullable',
+                'double_pocket_chain'=>'nullable',
             ]);
 
             if ($validator->fails()) {
@@ -63,6 +85,7 @@ class OrderController extends Controller
 
             $this->createCloth($request,$orders->id);
             $this->createClothFeatures($request,$orders->id);
+            $this->createUpperMeasurement($request,$orders->id);
 
             DB::commit();
             return $this->successResponse($orders,'Order Created Successfully',200);
@@ -104,6 +127,40 @@ class OrderController extends Controller
             'coughlin_sleeves'=>$request->coughlin_sleeves ?? false,
             'black_color'=>$request->black_color ?? false,
             'tira'=>$request->tira ?? false,
+        ]);
+    }
+
+    protected function createUpperMeasurement(Request $request, $order_id)
+    {
+        UpperMeasurement::create([
+            'order_id' => $order_id,
+            'length' => $request->length,
+            'body' => $request->body,
+            'belly' => $request->belly,
+            'tira2'=> $request->tira2,
+            'sleeves' => $request->sleeves,
+            'hem'=> $request->hem,
+            'neck'=> $request->neck,
+            'chest_open'=> $request->chest_open,
+            'chest_loose'=> $request->chest_loose,
+            'belly_loose'=> $request->belly_loose,
+            'lower_enclouser'=> $request->lower_enclouser,
+        ]);
+    }
+
+    protected function createLowerMeasurement(Request $request, $order_id)
+    {
+        LowerMeasurement::create([
+            'order_id' => $order_id,
+            'length' => $request->length,
+            'body' => $request->body,
+            'west'=> $request->west,
+            'hi' => $request->hi,
+            'run'=> $request->run,
+            'back_pocket'=> $request->back_pocket,
+            'front_mobile_pocket'=> $request->front_mobile_pocket,
+            'right_pocket_chain'=> $request->right_pocket_chain,
+            'double_pocket_chain'=>$request->double_pocket_chain,
         ]);
     }
 }
