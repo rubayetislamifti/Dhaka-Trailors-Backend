@@ -6,6 +6,7 @@ use App\Models\ClothDetails;
 use App\Models\ClothFeature;
 use App\Models\LowerMeasurement;
 use App\Models\Order;
+use App\Models\OrderDes;
 use App\Models\UpperMeasurement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -161,6 +162,16 @@ class OrderController extends Controller
             'front_mobile_pocket'=> $request->front_mobile_pocket,
             'right_pocket_chain'=> $request->right_pocket_chain,
             'double_pocket_chain'=>$request->double_pocket_chain,
+        ]);
+    }
+
+    protected function orderDes(Request $request){
+        OrderDes::create([
+            'order_id',
+            'order_description',
+            'quantity',
+            'price',
+            'total_price'
         ]);
     }
 }
