@@ -71,6 +71,10 @@ class OrderController extends Controller
                 'front_mobile_pocket'=>'nullable',
                 'right_pocket_chain'=>'nullable',
                 'double_pocket_chain'=>'nullable',
+                'order_description'=>'nullable',
+                'quantity'=>'nullable',
+                'price'=>'nullable',
+                'total_price'=>'nullable'
             ]);
 
             if ($validator->fails()) {
@@ -87,6 +91,7 @@ class OrderController extends Controller
             $this->createCloth($request,$orders->id);
             $this->createClothFeatures($request,$orders->id);
             $this->createUpperMeasurement($request,$orders->id);
+            $this->orderDes($request,$orders->id);
 
             DB::commit();
             return $this->successResponse($orders,'Order Created Successfully',200);
@@ -165,13 +170,14 @@ class OrderController extends Controller
         ]);
     }
 
-    protected function orderDes(Request $request){
+    protected function orderDes(Request $request,$order_id)
+    {
         OrderDes::create([
-            'order_id',
-            'order_description',
-            'quantity',
-            'price',
-            'total_price'
+            'order_id'=>$order_id,
+            'order_description'=>$request->order_description,
+            'quantity'=>$request->quantity,
+            'price'=>$request->price,
+            'total_price'=>$request->total_price
         ]);
     }
 }
